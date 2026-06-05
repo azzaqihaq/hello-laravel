@@ -856,6 +856,9 @@ html, body {
         justify-content: center;
         flex: 1;
     }
+    .sidebar-item-settings {
+        display: none !important;
+    }
     .sidebar-link {
         flex-direction: column;
         gap: 4px;
@@ -899,18 +902,7 @@ html, body {
         font-size: 0.8rem;
     }
     .btn-logout {
-        padding: 0;
-        width: 2.25rem;
-        height: 2.25rem;
-        border: none;
-        background: transparent;
-    }
-    .btn-logout span {
         display: none !important;
-    }
-    .btn-logout svg {
-        width: 1.25rem;
-        height: 1.25rem;
     }
     .main-content {
         margin-left: 0 !important;
@@ -962,5 +954,137 @@ html, body {
     }
     .dashboard-card {
         padding: 1.25rem;
+    }
+}
+
+/* Profile Dropdown Popup Menu */
+.user-profile-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.profile-dropdown {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    background: hsl(224, 25%, 6%); /* Solid background, no transparency */
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 0.75rem;
+    min-width: 170px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    display: none;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: var(--transition-smooth);
+}
+
+.dropdown-user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem 0.5rem 0.5rem;
+    text-align: left;
+}
+
+.dropdown-user-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    font-family: var(--font-sans);
+}
+
+.dropdown-user-role {
+    font-size: 0.75rem;
+    color: var(--primary);
+    font-weight: 500;
+    font-family: var(--font-sans);
+}
+
+.dropdown-user-email {
+    font-size: 0.7rem;
+    color: var(--text-dark);
+    font-family: var(--font-sans);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.5rem 0;
+}
+
+.profile-dropdown.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-item-logout {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.dropdown-item-logout:hover {
+    color: var(--danger);
+    background: hsla(0, 85%, 60%, 0.15);
+}
+
+.dropdown-item-logout svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.dropdown-item-link {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.dropdown-item-link:hover {
+    color: #fff;
+    background: hsla(224, 25%, 15%, 0.5);
+}
+
+.dropdown-item-link svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+@media (min-width: 769px) {
+    .profile-dropdown {
+        display: none !important;
     }
 }

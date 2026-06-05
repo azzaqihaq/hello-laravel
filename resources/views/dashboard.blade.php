@@ -64,7 +64,7 @@
                         <span>Projects</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item sidebar-item-settings">
                     <a href="#" class="sidebar-link" id="nav-item-settings">
                         <svg viewBox="0 0 24 24">
                             <circle cx="12" cy="12" r="3"></circle>
@@ -77,13 +77,45 @@
 
             <!-- Sidebar Footer (Profile & Logout Form) -->
             <div class="sidebar-footer">
-                <div class="user-profile">
-                    <div class="user-avatar">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                <div class="user-profile-wrapper">
+                    <div class="user-profile" id="user-profile-trigger">
+                        <div class="user-avatar">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ Auth::user()->name }}</span>
+                            <span class="user-role">{{ Auth::user()->role?->name ?? 'Guest' }}</span>
+                        </div>
                     </div>
-                    <div class="user-info">
-                        <span class="user-name">{{ Auth::user()->name }}</span>
-                        <span class="user-role">{{ Auth::user()->role?->name ?? 'Guest' }}</span>
+
+                    <!-- Mobile Profile Dropdown -->
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <div class="dropdown-user-details">
+                            <span class="dropdown-user-name">{{ Auth::user()->name }}</span>
+                            <span class="dropdown-user-role">{{ Auth::user()->role?->name ?? 'Guest' }}</span>
+                            <span class="dropdown-user-email">{{ Auth::user()->email }}</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <!-- Settings Dropdown Option (Mobile Only) -->
+                        <a href="#" class="dropdown-item-link" id="dropdown-item-settings">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            <span>Settings</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button 
+                            class="dropdown-item-logout"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            <span>Logout</span>
+                        </button>
                     </div>
                 </div>
 
@@ -124,6 +156,21 @@
                             greeting = 'Good evening';
                         }
                         document.getElementById('client-greeting').textContent = greeting;
+
+                        // Mobile Profile Dropdown Toggle
+                        const profileTrigger = document.getElementById('user-profile-trigger');
+                        const dropdown = document.getElementById('profile-dropdown');
+                        
+                        if (profileTrigger && dropdown) {
+                            profileTrigger.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                dropdown.classList.toggle('show');
+                            });
+
+                            document.addEventListener('click', function() {
+                                dropdown.classList.remove('show');
+                            });
+                        }
                     });
                 </script>
             </header>
