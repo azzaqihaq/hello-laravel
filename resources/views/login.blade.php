@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Sign in to your account.">
-    <title>Sign In - Antigravity</title>
+    <title>Sign In - Coleo.Inc</title>
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
