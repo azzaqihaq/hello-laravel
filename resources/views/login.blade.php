@@ -32,6 +32,12 @@
                 <p class="auth-subtitle">Sign in to your dashboard</p>
             </div>
 
+            @if (session('success'))
+                <div style="background: hsla(150, 85%, 35%, 0.15); border: 1px solid hsla(150, 85%, 35%, 0.3); color: hsl(150, 85%, 55%); padding: 0.85rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center; line-height: 1.4;">
+                    {{ session('success') }}
+                </div>
+            @endif
+
             <!-- Login Form -->
             <form action="{{ url('/login') }}" method="POST">
                 @csrf
@@ -98,7 +104,15 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="btn-auth">Sign In</button>
+                <button type="submit" class="btn-auth" style="margin-bottom: 1.5rem;">Sign In</button>
+
+                <!-- Redirect to Register Link -->
+                <div style="text-align: center;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">
+                        Don't have an account? 
+                        <a href="{{ route('register') }}" class="forgot-password" style="font-weight: 600;">Create Account</a>
+                    </span>
+                </div>
 
             </form>
 
