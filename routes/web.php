@@ -29,8 +29,30 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::post('/dashboard/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo');
     
     Route::get('/dashboard/settings', function () {
-        return view('settings');
+        $user = Auth::user()->load('settings');
+        return view('settings', compact('user'));
     })->name('settings');
+
+    Route::post('/dashboard/settings', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'notifications' => ['required', 'string', 'in:all,mentions,none'],
+        ]);
+
+        $user = Auth::user();
+        $user->settings()->updateOrCreate(
+            ['user_id' => $user->id],
+            ['notifications' => $request->notifications]
+        );
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Settings saved successfully.'
+            ]);
+        }
+
+        return back()->with('success', 'Settings saved successfully.');
+    })->name('settings.update');
 
     // Administrator-only routes
     Route::middleware('admin')->group(function () {

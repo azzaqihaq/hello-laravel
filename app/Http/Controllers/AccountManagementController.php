@@ -12,8 +12,12 @@ class AccountManagementController extends Controller
      */
     public function index()
     {
-        // Fetch all users with their roles
-        $users = User::with('role')->get();
+        // Fetch all users with their roles, excluding administrators
+        $users = User::with('role')
+            ->whereDoesntHave('role', function ($query) {
+                $query->where('slug', 'administrator');
+            })
+            ->get();
 
         return view('accounts', compact('users'));
     }

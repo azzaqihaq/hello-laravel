@@ -1,17 +1,16 @@
-/* Minimalist Teaser Stylesheet */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@800;900&display=swap');
 
 :root {
-    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-display: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
     
-    /* Dark Premium HSL Palette */
-    --bg-base: hsl(224, 25%, 4%);
-    --primary: hsl(263, 85%, 65%);
-    --primary-glow: hsla(263, 85%, 65%, 0.15);
-    --accent: hsl(190, 95%, 50%);
-    --accent-glow: hsla(190, 95%, 50%, 0.15);
+    /* Wise Sage-Tinted Palette */
+    --bg-base: #e8ebe6;
+    --primary: #9fe870;
+    --primary-glow: rgba(159, 232, 112, 0.20);
+    --accent: #38c8ff;
+    --accent-glow: rgba(56, 200, 255, 0.15);
     
-    --transition-smooth: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -28,7 +27,6 @@ html, body {
     overflow: hidden;
 }
 
-/* Ambient Glowing Background Animation */
 .ambient-bg {
     position: fixed;
     top: 0;
@@ -37,9 +35,9 @@ html, body {
     height: 100vh;
     z-index: -1;
     overflow: hidden;
-    background: radial-gradient(circle at 15% 25%, hsla(263, 85%, 35%, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 85% 75%, hsla(190, 95%, 30%, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, hsla(290, 80%, 40%, 0.04) 0%, transparent 60%);
+    background: radial-gradient(circle at 15% 25%, rgba(159, 232, 112, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(56, 200, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(205, 255, 173, 0.04) 0%, transparent 60%);
     filter: blur(80px);
 }
 
@@ -115,18 +113,15 @@ html, body {
     width: 100%;
     height: 500px;
     position: relative;
-    background: hsla(224, 25%, 8%, 0.4);
-    border: 1px solid hsla(224, 20%, 20%, 0.35);
+    background: #ffffff;
+    border: 1px solid #0e0f0c;
     border-radius: 24px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25),
-                inset 0 1px 1px hsla(0, 0%, 100%, 0.05);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    box-shadow: 0 15px 35px rgba(14, 15, 12, 0.08);
 }
 
 #matcha-3d-container {
@@ -143,20 +138,20 @@ html, body {
 .drag-hint {
     position: absolute;
     top: 1.25rem;
-    background: hsla(224, 25%, 12%, 0.7);
-    border: 1px solid hsla(224, 20%, 20%, 0.5);
+    background: #ffffff;
+    border: 1px solid #0e0f0c;
     border-radius: 9999px;
     padding: 0.4rem 0.85rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.75rem;
-    color: var(--primary);
+    color: #0e0f0c;
     letter-spacing: 0.02em;
     font-weight: 600;
     pointer-events: none;
     user-select: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 15px rgba(14, 15, 12, 0.05);
     animation: bounce-slow 3s infinite ease-in-out;
     z-index: 2;
 }
@@ -186,13 +181,11 @@ html, body {
 
 .teaser-text {
     font-size: clamp(2rem, 8vw, 5.5rem);
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: -0.04em;
     line-height: 1.1;
     text-align: center;
-    background: linear-gradient(135deg, #ffffff 40%, hsla(0, 0%, 100%, 0.5) 80%, var(--primary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #0e0f0c;
 }
 
 /* Countdown Styles */
@@ -235,36 +228,32 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: hsla(224, 25%, 8%, 0.55);
-    border: 1px solid hsla(224, 20%, 20%, 0.45);
-    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #0e0f0c;
+    border-radius: 24px;
     padding: 1rem 1.25rem;
     min-width: 88px;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
-                inset 0 1px 1px hsla(0, 0%, 100%, 0.05);
+    box-shadow: 0 4px 12px rgba(14, 15, 12, 0.05);
     transition: all 0.3s ease;
 }
 
 .countdown-item:hover {
-    border-color: var(--primary);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35),
-                0 0 15px var(--primary-glow);
+    border-color: #0e0f0c;
+    box-shadow: 0 8px 24px rgba(14, 15, 12, 0.1);
     transform: translateY(-2px);
 }
 
 .countdown-value {
     font-size: 2.25rem;
-    font-weight: 800;
-    color: #fff;
+    font-weight: 900;
+    color: #0e0f0c;
     line-height: 1;
     letter-spacing: -0.02em;
 }
 
 .countdown-unit {
     font-size: 0.75rem;
-    color: hsla(0, 0%, 100%, 0.4);
+    color: #868685;
     text-transform: uppercase;
     font-weight: 700;
     margin-top: 0.35rem;

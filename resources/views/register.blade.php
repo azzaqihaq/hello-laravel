@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Register a new account.">
-    <title>Create Account - Antigravity</title>
+    <title>Create Account - Coleo.Inc</title>
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">

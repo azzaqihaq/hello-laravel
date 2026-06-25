@@ -33,7 +33,7 @@
             </div>
 
             @if (session('success'))
-                <div style="background: hsla(150, 85%, 35%, 0.15); border: 1px solid hsla(150, 85%, 35%, 0.3); color: hsl(150, 85%, 55%); padding: 0.85rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center; line-height: 1.4;">
+                <div style="background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); padding: 0.85rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center; line-height: 1.4;">
                     {{ session('success') }}
                 </div>
             @endif

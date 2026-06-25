@@ -81,6 +81,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the settings associated with the user.
+     */
+    public function settings()
+    {
+        return $this->hasOne(UserSetting::class)->withDefault([
+            'notifications' => 'all'
+        ]);
+    }
+
+    /**
      * Get the user's full name.
      */
     public function getNameAttribute()

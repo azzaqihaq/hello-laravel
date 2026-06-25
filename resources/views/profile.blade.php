@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
     <title>Profile - Coleo.Inc</title>
 
     <!-- Stylesheet -->
@@ -42,7 +36,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 24px;
             padding: 2rem;
         }
 
@@ -75,16 +69,16 @@
         .profile-avatar-large {
             width: 90px;
             height: 90px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 24px;
+            background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             font-weight: 800;
-            color: #fff;
+            color: var(--on-primary);
             letter-spacing: 0.02em;
-            box-shadow: 0 8px 24px hsla(263, 85%, 55%, 0.25);
+            box-shadow: 0 8px 24px var(--primary-glow);
             overflow: hidden;
         }
 
@@ -97,7 +91,7 @@
         .photo-upload-overlay {
             position: absolute;
             inset: 0;
-            border-radius: 20px;
+            border-radius: 24px;
             background: rgba(0, 0, 0, 0.55);
             display: flex;
             align-items: center;
@@ -148,21 +142,21 @@
         }
 
         .profile-header-role.administrator {
-            background: hsla(263, 85%, 65%, 0.15);
-            border: 1px solid hsla(263, 85%, 65%, 0.3);
-            color: hsl(263, 85%, 75%);
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
         }
 
         .profile-header-role.editor {
-            background: hsla(190, 95%, 50%, 0.15);
-            border: 1px solid hsla(190, 95%, 50%, 0.3);
-            color: hsl(190, 95%, 60%);
+            background: rgba(56, 200, 255, 0.15);
+            border: 1px solid rgba(56, 200, 255, 0.3);
+            color: var(--accent);
         }
 
         .profile-header-role.user {
-            background: hsla(290, 80%, 50%, 0.15);
-            border: 1px solid hsla(290, 80%, 50%, 0.3);
-            color: hsl(290, 80%, 70%);
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
         }
 
         /* Form Styling */
@@ -194,7 +188,7 @@
         .profile-form-group input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px hsla(263, 85%, 55%, 0.15);
+            box-shadow: 0 0 0 3px var(--primary-glow);
             background: var(--input-focus-bg);
         }
 
@@ -224,11 +218,11 @@
         .btn-save-profile {
             padding: 0.7rem 1.75rem;
             border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary) 0%, hsl(263, 85%, 55%) 100%);
-            color: #fff;
+            border-radius: 24px;
+            background: var(--primary);
+            color: var(--on-primary);
             font-family: var(--font-sans);
-            font-weight: 700;
+            font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
             transition: var(--transition-smooth);
@@ -236,11 +230,13 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 0.5rem;
-            box-shadow: 0 8px 25px var(--primary-glow);
+            box-shadow: 0 4px 12px var(--primary-glow);
         }
 
         .btn-save-profile:hover {
-            box-shadow: 0 12px 30px hsla(263, 85%, 65%, 0.35);
+            background: #cdffad;
+            color: var(--on-primary);
+            box-shadow: 0 8px 24px var(--primary-glow);
             transform: translateY(-2px);
         }
 
@@ -397,10 +393,10 @@
 
         .btn-crop-confirm {
             padding: 0.6rem 1.25rem;
-            background: linear-gradient(135deg, var(--primary) 0%, hsl(263, 85%, 55%) 100%);
-            color: #fff;
+            background: var(--primary);
+            color: var(--on-primary);
             border: none;
-            border-radius: 10px;
+            border-radius: 24px;
             font-family: var(--font-sans);
             font-weight: 600;
             font-size: 0.85rem;
@@ -411,7 +407,8 @@
 
         .btn-crop-confirm:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px hsla(263, 85%, 65%, 0.35);
+            box-shadow: 0 8px 24px var(--primary-glow);
+            background: #cdffad;
         }
 
         .btn-crop-confirm:disabled {
@@ -773,17 +770,29 @@
                 }, 'image/jpeg', 0.9);
             });
 
-            // ── AJAX Profile Update ──
+            // ── AJAX Profile Save on Button Click ──
             const form = document.getElementById('profile-form');
+            const firstNameInput = document.getElementById('first_name');
+            const lastNameInput = document.getElementById('last_name');
             const btnSave = document.getElementById('btn-save-profile');
 
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
+                // Perform quick client-side validation
+                if (!firstNameInput.value.trim()) {
+                    const errorEl = document.getElementById('error-first_name');
+                    if (errorEl) errorEl.textContent = 'First Name is required.';
+                    firstNameInput.classList.add('has-error');
+                    return;
+                }
+
                 document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
                 document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
 
+                // Disable button while saving
                 btnSave.disabled = true;
+                btnSave.querySelector('span').textContent = 'Saving...';
 
                 const formData = new FormData(form);
 
@@ -801,6 +810,8 @@
                 })
                 .then(data => {
                     btnSave.disabled = false;
+                    btnSave.querySelector('span').textContent = 'Save Changes';
+
                     if (data.success) {
                         document.getElementById('profile-display-name').textContent = data.user.name;
                         document.getElementById('profile-display-email').textContent = data.user.email;
@@ -809,11 +820,23 @@
                         const initialsEl = document.getElementById('avatar-initials');
                         if (initialsEl) initialsEl.textContent = data.user.initials;
 
+                        // Also update sidebar user name
+                        const sidebarName = document.querySelector('.user-name');
+                        if (sidebarName) sidebarName.textContent = data.user.name;
+
+                        // Also update sidebar avatar text initials if no photo
+                        const sidebarAvatar = document.getElementById('sidebar-avatar');
+                        if (sidebarAvatar && !data.user.photo_url) {
+                            sidebarAvatar.innerHTML = `<span>${data.user.initials}</span>`;
+                        }
+
                         showToast('success', 'Profile updated successfully.');
                     }
                 })
                 .catch(errData => {
                     btnSave.disabled = false;
+                    btnSave.querySelector('span').textContent = 'Save Changes';
+
                     if (errData.errors) {
                         for (const [field, messages] of Object.entries(errData.errors)) {
                             const errorEl = document.getElementById('error-' + field);
@@ -822,7 +845,7 @@
                             if (inputEl) inputEl.classList.add('has-error');
                         }
                     } else {
-                        showToast('error', errData.message || 'An error occurred.');
+                        showToast('error', errData.message || 'An error occurred while saving.');
                     }
                 });
             });

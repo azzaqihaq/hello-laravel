@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
-    <title>Account Management - Antigravity</title>
+    <title>Account Management - Coleo.Inc</title>
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     
     <!-- Table & Badge Specific Styles -->
     <style>
@@ -24,6 +19,7 @@
         
         .accounts-table {
             width: 100%;
+            min-width: 800px;
             border-collapse: collapse;
             text-align: left;
         }
@@ -36,6 +32,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
         }
         
         .accounts-table td {
@@ -43,10 +40,11 @@
             color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
+            white-space: nowrap;
         }
         
         .accounts-table tr:hover td {
-            background: hsla(224, 25%, 12%, 0.2);
+            background: var(--tr-hover-bg);
         }
         
         /* Badges */
@@ -60,21 +58,21 @@
         }
         
         .badge-role.admin {
-            background: hsla(263, 85%, 65%, 0.15);
-            border: 1px solid hsla(263, 85%, 65%, 0.3);
-            color: hsl(263, 85%, 75%);
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
         }
         
         .badge-role.editor {
-            background: hsla(190, 95%, 50%, 0.15);
-            border: 1px solid hsla(190, 95%, 50%, 0.3);
-            color: hsl(190, 95%, 60%);
+            background: rgba(56, 200, 255, 0.15);
+            border: 1px solid rgba(56, 200, 255, 0.3);
+            color: var(--accent);
         }
         
         .badge-role.user {
-            background: hsla(290, 80%, 50%, 0.15);
-            border: 1px solid hsla(290, 80%, 50%, 0.3);
-            color: hsl(290, 80%, 70%);
+            background: var(--bg-base);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
         }
         
         .badge-status {
@@ -124,14 +122,15 @@
         }
         
         .btn-status-toggle.activate, .btn-status-toggle.deactivate {
-            background: hsla(263, 85%, 65%, 0.1);
-            border: 1px solid hsla(263, 85%, 65%, 0.25);
-            color: hsl(263, 85%, 75%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
         }
         
         .btn-status-toggle.activate:hover, .btn-status-toggle.deactivate:hover {
             background: var(--primary);
-            color: #fff;
+            border-color: var(--border-hover);
+            color: var(--on-primary);
             box-shadow: 0 4px 12px var(--primary-glow);
         }
         
@@ -177,13 +176,15 @@
         }
 
         .confirm-modal-icon.activate {
-            background: hsla(150, 85%, 55%, 0.12);
-            color: hsl(150, 85%, 55%);
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
         }
-
+ 
         .confirm-modal-icon.deactivate {
-            background: hsla(0, 85%, 60%, 0.12);
-            color: hsl(0, 85%, 60%);
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--danger);
         }
 
         .confirm-modal-icon svg {
@@ -248,15 +249,166 @@
         }
 
         .btn-confirm-proceed.activate, .btn-confirm-proceed.deactivate {
-            background: linear-gradient(135deg, var(--primary) 0%, hsl(263, 85%, 55%) 100%);
-            color: #fff;
+            background: var(--primary);
+            color: var(--on-primary);
             border: none;
             box-shadow: 0 4px 12px var(--primary-glow);
         }
 
         .btn-confirm-proceed.activate:hover, .btn-confirm-proceed.deactivate:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px hsla(263, 85%, 65%, 0.35);
+            background: #cdffad;
+            color: var(--on-primary);
+            box-shadow: 0 8px 24px var(--primary-glow);
+        }
+
+        /* Responsive accounts card styling */
+        .accounts-workspace-card {
+            display: block;
+            text-align: left;
+            padding: 2.25rem 2.5rem;
+            align-items: stretch;
+            justify-content: flex-start;
+            min-height: unset;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .accounts-content-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .accounts-workspace-card {
+                padding: 1.25rem 1rem;
+            }
+
+            .accounts-content-header {
+                margin-bottom: 1rem;
+            }
+
+            .accounts-content-header .content-title {
+                font-size: 1.5rem;
+            }
+
+            .accounts-content-header .content-desc {
+                font-size: 0.9rem;
+            }
+
+            .table-actions-bar {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+
+            .table-actions-bar > div:first-child {
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+
+            .table-actions-bar .filter-options {
+                width: 100%;
+            }
+
+            .table-actions-bar select.form-input {
+                width: 100%;
+            }
+
+            .dataTables_wrapper .dataTables_info {
+                text-align: center;
+                font-size: 0.8rem;
+            }
+
+            .dataTables_wrapper .dataTables_paginate {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button {
+                min-width: 32px;
+                height: 32px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Custom DataTables Styling overrides to match Wise theme */
+        .dataTables_wrapper {
+            margin-top: 1.5rem;
+            font-family: var(--font-sans);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            color: var(--text-muted) !important;
+            font-size: 0.85rem;
+            padding-top: 1.25rem;
+            float: none;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            padding-top: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            float: none;
+        }
+
+        @media (min-width: 576px) {
+            .dataTables_wrapper {
+                display: block;
+            }
+            .dataTables_wrapper .dataTables_info {
+                float: left;
+            }
+            .dataTables_wrapper .dataTables_paginate {
+                float: right;
+            }
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color) !important;
+            background: var(--bg-card) !important;
+            color: var(--text-main) !important;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin: 0 2px;
+            box-shadow: none;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: var(--tr-hover-bg) !important;
+            color: var(--text-main) !important;
+            border-color: var(--border-hover) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            color: var(--on-primary) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: transparent !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-dark) !important;
+        }
+
+        .dataTables_length, .dataTables_filter {
+            display: none !important;
         }
     </style>
 </head>
@@ -275,11 +427,10 @@
         <!-- Main Dashboard Workspace -->
         <main class="main-content">
             
-            <header class="content-header">
+            <header class="content-header accounts-content-header">
                 <h1 class="content-title">Account Management</h1>
                 <p class="content-desc">Review registered user applications and toggle their activation status.</p>
             </header>
-
 
 
             @if (session('success'))
@@ -304,10 +455,50 @@
             @endif
 
             <!-- Glassmorphic Users Card -->
-            <div class="workspace-card" style="display: block; text-align: left; padding: 2rem; align-items: stretch; justify-content: flex-start; min-height: unset;">
+            <div class="workspace-card accounts-workspace-card">
                 
+                <!-- Search and Filter Bar -->
+                <div class="table-actions-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <!-- Search Input -->
+                    <div style="position: relative; flex-grow: 1; max-width: 400px; min-width: 250px;">
+                        <input type="text" id="search-input" placeholder="Search users by name, email, or ID..." class="form-input" style="padding-left: 2.75rem; margin-bottom: 0; width: 100%;">
+                        <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-dark); pointer-events: none; display: flex; align-items: center;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <!-- Filter Options -->
+                    <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                        <!-- Role Filter -->
+                        <div style="position: relative; min-width: 140px;">
+                            <select id="role-filter" class="form-input" style="margin-bottom: 0; padding-right: 2rem; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%226 9 12 15 18 9%22></polyline></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;">
+                                <option value="all">All Roles</option>
+                                <option value="editor">Editor</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div style="position: relative; min-width: 140px;">
+                            <select id="status-filter" class="form-input" style="margin-bottom: 0; padding-right: 2rem; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%226 9 12 15 18 9%22></polyline></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;">
+                                <option value="all">All Statuses</option>
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+
+                        <!-- Reset Filters -->
+                        <button type="button" id="btn-reset-filters" class="btn-confirm-cancel" style="padding: 0.8rem 1.25rem; font-size: 0.9rem; border-radius: 12px; margin: 0; display: none;">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
                 <div class="table-wrapper">
-                    <table class="accounts-table">
+                    <table class="accounts-table" id="accounts-table">
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -330,7 +521,7 @@
                                                 @endif
                                             </div>
                                             <div style="display: flex; flex-direction: column;">
-                                                <span style="font-weight: 600;">{{ $user->name }}</span>
+                                                <span class="user-name-text" style="font-weight: 600;">{{ $user->name }}</span>
                                                 <span style="font-size: 0.75rem; color: var(--text-dark);">{{ $user->member_id ?? 'No Member ID' }}</span>
                                             </div>
                                         </div>
@@ -401,26 +592,32 @@
         </div>
     </dialog>
 
+    <!-- jQuery and DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
     <!-- AJAX Account Toggle Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('.ajax-toggle-form');
             const alertDiv = document.getElementById('ajax-alert');
-            
-            // Mobile Profile Dropdown Toggle
-            const profileTrigger = document.getElementById('user-profile-trigger');
-            const dropdown = document.getElementById('profile-dropdown');
-            
-            if (profileTrigger && dropdown) {
-                profileTrigger.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('show');
-                });
 
-                document.addEventListener('click', function() {
-                    dropdown.classList.remove('show');
-                });
-            }
+            // Initialize DataTable
+            const table = $('#accounts-table').DataTable({
+                pageLength: 5,
+                searching: true,
+                ordering: true,
+                info: true,
+                dom: 'rtip', // Hide default search & length controls
+                language: {
+                    paginate: {
+                        next: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>',
+                        previous: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>'
+                    }
+                },
+                columnDefs: [
+                    { orderable: false, targets: [4] } // Action column is not sortable
+                ]
+            });
             
             // Confirmation Modal Elements
             const confirmDialog = document.getElementById('confirm-dialog');
@@ -435,7 +632,7 @@
                 const button = form.querySelector('button');
                 const isDeactivating = button.classList.contains('deactivate');
                 const row = form.closest('tr');
-                const userName = row.querySelector('td:first-child span').textContent.trim();
+                const userName = row.querySelector('.user-name-text').textContent.trim();
 
                 pendingForm = form;
 
@@ -498,12 +695,13 @@
                 });
             }
 
-            // Intercept form submissions to show modal first
-            forms.forEach(form => {
-                form.addEventListener('submit', function(e) {
+            // Intercept form submissions via event delegation to show modal first
+            document.addEventListener('submit', function(e) {
+                const form = e.target.closest('.ajax-toggle-form');
+                if (form) {
                     e.preventDefault();
-                    showConfirmModal(this);
-                });
+                    showConfirmModal(form);
+                }
             });
 
             // Proceed button executes the AJAX request
@@ -577,6 +775,13 @@
                             `;
                         }
 
+                        // Invalidate elements in DataTables cache so searching/sorting uses updated values
+                        const statusCell = statusContainer.closest('td');
+                        const actionCell = button.closest('td');
+                        if (statusCell) table.cell(statusCell).invalidate();
+                        if (actionCell) table.cell(actionCell).invalidate();
+                        table.draw(false);
+
                         // Show success banner
                         alertDiv.className = 'toast-alert success';
                         alertDiv.innerHTML = `
@@ -626,6 +831,53 @@
                     }
                 });
             });
+
+            // ── Client-side Table Search & Filter ──
+            const searchInput = document.getElementById('search-input');
+            const roleFilter = document.getElementById('role-filter');
+            const statusFilter = document.getElementById('status-filter');
+            const btnReset = document.getElementById('btn-reset-filters');
+
+            function filterTable() {
+                const query = searchInput.value.trim();
+                const selectedRole = roleFilter.value;
+                const selectedStatus = statusFilter.value;
+
+                let hasActiveFilters = query !== '' || selectedRole !== 'all' || selectedStatus !== 'all';
+                btnReset.style.display = hasActiveFilters ? 'inline-block' : 'none';
+
+                // Search query globally
+                table.search(query);
+
+                // Role Filter (Column 2)
+                if (selectedRole === 'all') {
+                    table.column(2).search('');
+                } else {
+                    table.column(2).search('^' + selectedRole + '$', true, false, true);
+                }
+
+                // Status Filter (Column 3)
+                if (selectedStatus === 'all') {
+                    table.column(3).search('');
+                } else {
+                    table.column(3).search('^' + selectedStatus + '$', true, false, true);
+                }
+
+                table.draw();
+            }
+
+            if (searchInput && roleFilter && statusFilter) {
+                searchInput.addEventListener('input', filterTable);
+                roleFilter.addEventListener('change', filterTable);
+                statusFilter.addEventListener('change', filterTable);
+
+                btnReset.addEventListener('click', function() {
+                    searchInput.value = '';
+                    roleFilter.value = 'all';
+                    statusFilter.value = 'all';
+                    filterTable();
+                });
+            }
         });
     </script>
     <!-- AJAX Success Alert -->

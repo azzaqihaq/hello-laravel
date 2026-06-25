@@ -1,81 +1,47 @@
 /* Auth and Dashboard Stylesheet */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Manrope:wght@800;900&display=swap');
 
 :root {
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-display: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
     
-    /* Dark Premium HSL Palette (Default Theme) */
-    --bg-base: hsl(224, 25%, 4%);
-    --bg-card: hsla(224, 25%, 8%, 0.65);
-    --bg-card-solid: hsl(224, 25%, 8%);
-    --sidebar-bg: hsla(224, 25%, 3%, 0.7);
-    --input-bg: hsla(224, 25%, 12%, 0.5);
-    --input-focus-bg: hsla(224, 25%, 15%, 0.7);
-    --metric-icon-bg: hsla(224, 25%, 15%, 0.5);
-    --tr-hover-bg: hsla(224, 25%, 10%, 0.4);
-    --tooltip-title-bg: hsla(224, 25%, 12%, 0.9);
-    --border-color: hsla(224, 20%, 20%, 0.4);
-    --border-hover: hsla(263, 80%, 60%, 0.5);
+    /* Wise Light Sage Canvas Theme (Default) */
+    --bg-base: #e8ebe6;
+    --bg-card: #ffffff;
+    --bg-card-solid: #ffffff;
+    --sidebar-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-focus-bg: #ffffff;
+    --metric-icon-bg: #e8ebe6;
+    --tr-hover-bg: rgba(14, 15, 12, 0.03);
+    --tooltip-title-bg: #e8ebe6;
+    --border-color: rgba(14, 15, 12, 0.12);
+    --border-hover: #0e0f0c;
     
-    --primary: hsl(263, 85%, 65%);
-    --primary-glow: hsla(263, 85%, 65%, 0.2);
-    --accent: hsl(190, 95%, 50%);
-    --accent-glow: hsla(190, 95%, 50%, 0.15);
+    --primary: #9fe870;
+    --primary-glow: rgba(159, 232, 112, 0.25);
+    --accent: #38c8ff;
+    --accent-glow: rgba(56, 200, 255, 0.15);
+    --on-primary: #0e0f0c;
     
-    --text-main: hsl(220, 15%, 90%);
-    --text-muted: hsl(220, 10%, 65%);
-    --text-dark: hsl(220, 10%, 45%);
-    --danger: hsl(0, 85%, 60%);
+    --text-main: #0e0f0c;
+    --text-muted: #454745;
+    --text-dark: #868685;
+    --danger: #d03238;
     
-    --glass-bg: hsla(224, 25%, 8%, 0.6);
+    --glass-bg: rgba(255, 255, 255, 0.8);
     --sidebar-width: 280px;
     --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     
-    /* Popup, Alert & Backdrop styles (Dark mode defaults) */
-    --backdrop-bg: rgba(0, 0, 0, 0.6);
-    --success-bg: hsla(150, 85%, 10%, 0.85);
-    --success-border: hsla(150, 85%, 35%, 0.3);
-    --success-text: hsl(150, 85%, 55%);
-    --error-bg: hsla(0, 85%, 12%, 0.85);
-    --error-border: hsla(0, 85%, 45%, 0.3);
-    --error-text: hsl(0, 85%, 65%);
+    --backdrop-bg: rgba(14, 15, 12, 0.3);
+    --success-bg: #e2f6d5;
+    --success-border: rgba(46, 173, 75, 0.2);
+    --success-text: #054d28;
+    --error-bg: #fbeae8;
+    --error-border: rgba(208, 50, 56, 0.2);
+    --error-text: #d03238;
 }
 
-[data-theme="light"] {
-    /* Light Premium HSL Palette */
-    --bg-base: hsl(220, 30%, 93%);
-    --bg-card: hsla(0, 0%, 100%, 0.75);
-    --bg-card-solid: hsl(0, 0%, 100%);
-    --sidebar-bg: hsla(220, 30%, 96%, 0.85);
-    --input-bg: hsla(220, 20%, 88%, 0.6);
-    --input-focus-bg: hsla(0, 0%, 100%, 0.9);
-    --metric-icon-bg: hsla(220, 20%, 90%, 0.5);
-    --tr-hover-bg: hsla(220, 20%, 85%, 0.3);
-    --tooltip-title-bg: hsla(220, 20%, 92%, 0.9);
-    --border-color: hsla(220, 20%, 75%, 0.4);
-    --border-hover: hsla(263, 70%, 50%, 0.5);
-    
-    --primary: hsl(263, 75%, 55%);
-    --primary-glow: hsla(263, 75%, 55%, 0.15);
-    --accent: hsl(190, 85%, 40%);
-    --accent-glow: hsla(190, 85%, 40%, 0.15);
-    
-    --text-main: hsl(220, 30%, 15%);
-    --text-muted: hsl(220, 20%, 38%);
-    --text-dark: hsl(220, 15%, 50%);
-    
-    --glass-bg: hsla(0, 0%, 100%, 0.65);
-    
-    /* Popup, Alert & Backdrop styles (Light mode variants) */
-    --backdrop-bg: rgba(15, 23, 42, 0.15);
-    --success-bg: hsla(150, 70%, 95%, 0.9);
-    --success-border: hsla(150, 80%, 40%, 0.2);
-    --success-text: hsl(150, 80%, 25%);
-    --error-bg: hsla(0, 75%, 97%, 0.9);
-    --error-border: hsla(0, 80%, 50%, 0.2);
-    --error-text: hsl(0, 80%, 35%);
-}
 
 /* Enable smooth transitions for theme switches */
 body, .sidebar, .main-content, .workspace-card, .metric-card, .dashboard-card, .profile-card, .glass-dialog, .details-table tr, .form-input, .user-name, .user-role {
@@ -106,7 +72,7 @@ html, body {
     height: 100vh;
     z-index: -1;
     overflow: hidden;
-    background: radial-gradient(circle at 10% 20%, hsla(263, 85%, 35%, 0.12) 0%, transparent 40%),
+    background: radial-gradient(circle at 10% 20%, rgba(159, 232, 112, 0.06) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, hsla(190, 95%, 30%, 0.12) 0%, transparent 40%),
                 radial-gradient(circle at 50% 50%, hsla(290, 80%, 40%, 0.04) 0%, transparent 60%);
     filter: blur(80px);
@@ -172,10 +138,10 @@ html, body {
     justify-content: center;
     width: 3.5rem;
     height: 3.5rem;
-    border-radius: 14px;
-    background: hsla(263, 85%, 65%, 0.1);
-    border: 1px solid hsla(263, 85%, 65%, 0.2);
-    color: var(--primary);
+    border-radius: 12px;
+    background: var(--primary-glow);
+    border: 1px solid var(--primary);
+    color: var(--text-main);
     margin-bottom: 1.25rem;
 }
 
@@ -187,9 +153,9 @@ html, body {
 
 .auth-title {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 900;
     font-size: 1.75rem;
-    color: #fff;
+    color: var(--text-main);
     margin-bottom: 0.5rem;
 }
 
@@ -230,8 +196,8 @@ html, body {
 
 .form-input:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 15px var(--primary-glow);
+    border-color: var(--border-hover);
+    box-shadow: 0 0 0 3px var(--primary-glow);
     background: var(--input-focus-bg);
 }
 
@@ -301,22 +267,23 @@ html, body {
 .btn-auth {
     width: 100%;
     padding: 0.9rem;
-    background: linear-gradient(135deg, var(--primary) 0%, hsl(263, 85%, 55%) 100%);
-    color: #fff;
+    background: var(--primary);
+    color: var(--on-primary);
     border: none;
-    border-radius: 12px;
+    border-radius: 24px;
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
     transition: var(--transition-smooth);
-    box-shadow: 0 8px 25px var(--primary-glow);
+    box-shadow: 0 4px 12px var(--primary-glow);
 }
 
 .btn-auth:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px hsla(263, 85%, 65%, 0.35);
-    filter: brightness(1.1);
+    background: #cdffad;
+    color: var(--on-primary);
+    box-shadow: 0 8px 24px var(--primary-glow);
 }
 
 .error-message {
@@ -364,8 +331,8 @@ html, body {
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 8px;
-    background: hsla(263, 85%, 65%, 0.1);
-    color: var(--primary);
+    background: var(--primary-glow);
+    color: var(--text-main);
 }
 
 .sidebar-logo svg {
@@ -380,11 +347,9 @@ html, body {
 
 .sidebar-title {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 900;
     font-size: 1.25rem;
-    background: linear-gradient(135deg, #fff 40%, var(--primary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-main);
 }
 
 .sidebar-nav {
@@ -419,17 +384,18 @@ html, body {
 
 .sidebar-link:hover {
     color: var(--text-main);
-    background: hsla(224, 20%, 15%, 0.4);
+    background: var(--bg-base);
 }
 
 .sidebar-item.active .sidebar-link {
-    color: var(--text-main);
-    background: hsla(263, 85%, 65%, 0.1);
-    border: 1px solid hsla(263, 85%, 65%, 0.2);
+    color: var(--on-primary);
+    background: var(--primary);
+    border: none;
 }
 
 .sidebar-item.active .sidebar-link svg {
-    color: var(--primary);
+    color: var(--on-primary);
+    stroke: var(--on-primary);
 }
 
 /* Sidebar Footer (Profile / Logout) */
@@ -450,13 +416,13 @@ html, body {
 .user-avatar {
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: 10px;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 24px;
+    background: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    color: #fff;
+    color: var(--on-primary);
     font-size: 1rem;
     box-shadow: 0 4px 10px var(--primary-glow);
     overflow: hidden;
@@ -549,7 +515,7 @@ html, body {
     flex: 1;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 3rem;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -566,8 +532,8 @@ html, body {
     width: 4rem;
     height: 4rem;
     border-radius: 16px;
-    background: hsla(263, 85%, 65%, 0.06);
-    border: 1px solid hsla(263, 85%, 65%, 0.15);
+    background: var(--primary-glow);
+    border: 1px solid var(--primary);
     color: var(--text-muted);
     display: flex;
     align-items: center;
@@ -625,7 +591,7 @@ html, body {
 .metric-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 24px;
     padding: 1.5rem;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -692,9 +658,9 @@ html, body {
 }
 
 .metric-card:hover .metric-icon {
-    color: var(--primary);
-    background: hsla(263, 85%, 65%, 0.1);
-    border-color: hsla(263, 85%, 65%, 0.25);
+    color: var(--on-primary);
+    background: var(--primary);
+    border-color: var(--border-hover);
 }
 
 .metric-icon svg {
@@ -715,7 +681,7 @@ html, body {
 .dashboard-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 1.75rem;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -1173,7 +1139,7 @@ dialog::backdrop {
 
 .glass-dialog {
     border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border-radius: 24px;
     background: var(--glass-bg);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);

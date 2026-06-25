@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
     <title>Dashboard - Coleo.Inc</title>
 
     <!-- ApexCharts CDN -->
@@ -178,7 +172,7 @@
             <!-- ApexCharts Initialization Script -->
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
-                    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                    const isLight = true;
                     const options = {
                         chart: {
                             type: 'area',
@@ -237,7 +231,7 @@
                                 }
                             }
                         },
-                        colors: ['#a855f7', '#06b6d4'], // primary (purple) and accent (cyan)
+                        colors: ['#9fe870', '#38c8ff'], // primary (Wise green) and accent (cyan)
                         legend: {
                             position: 'top',
                             horizontalAlign: 'right',
