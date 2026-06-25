@@ -3,6 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <title>Account Management - Antigravity</title>
 
     <!-- Stylesheet -->
@@ -117,28 +123,16 @@
             gap: 0.35rem;
         }
         
-        .btn-status-toggle.activate {
-            background: hsla(150, 85%, 55%, 0.1);
-            border: 1px solid hsla(150, 85%, 55%, 0.25);
-            color: hsl(150, 85%, 55%);
+        .btn-status-toggle.activate, .btn-status-toggle.deactivate {
+            background: hsla(263, 85%, 65%, 0.1);
+            border: 1px solid hsla(263, 85%, 65%, 0.25);
+            color: hsl(263, 85%, 75%);
         }
         
-        .btn-status-toggle.activate:hover {
-            background: hsl(150, 85%, 55%);
+        .btn-status-toggle.activate:hover, .btn-status-toggle.deactivate:hover {
+            background: var(--primary);
             color: #fff;
-            box-shadow: 0 4px 12px hsla(150, 85%, 55%, 0.25);
-        }
-        
-        .btn-status-toggle.deactivate {
-            background: hsla(0, 85%, 60%, 0.1);
-            border: 1px solid hsla(0, 85%, 60%, 0.25);
-            color: hsl(0, 85%, 60%);
-        }
-        
-        .btn-status-toggle.deactivate:hover {
-            background: hsl(0, 85%, 60%);
-            color: #fff;
-            box-shadow: 0 4px 12px hsla(0, 85%, 60%, 0.25);
+            box-shadow: 0 4px 12px var(--primary-glow);
         }
         
         .alert-banner {
@@ -153,39 +147,18 @@
         }
         
         .alert-banner.success {
-            background: hsla(150, 85%, 35%, 0.15);
-            border: 1px solid hsla(150, 85%, 35%, 0.3);
-            color: hsl(150, 85%, 55%);
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
         }
         
         .alert-banner.error {
-            background: hsla(0, 85%, 45%, 0.15);
-            border: 1px solid hsla(0, 85%, 45%, 0.3);
-            color: hsl(0, 85%, 65%);
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
         }
         
-        #ajax-alert {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 9999;
-            max-width: 320px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            animation: slide-in-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
-        @keyframes slide-in-toast {
-            from {
-                transform: translateX(120%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
+
 
         /* Confirmation Modal */
         .confirm-modal-content {
@@ -274,22 +247,16 @@
             gap: 0.4rem;
         }
 
-        .btn-confirm-proceed.activate {
-            background: hsl(150, 85%, 55%);
+        .btn-confirm-proceed.activate, .btn-confirm-proceed.deactivate {
+            background: linear-gradient(135deg, var(--primary) 0%, hsl(263, 85%, 55%) 100%);
             color: #fff;
+            border: none;
+            box-shadow: 0 4px 12px var(--primary-glow);
         }
 
-        .btn-confirm-proceed.activate:hover {
-            box-shadow: 0 4px 18px hsla(150, 85%, 55%, 0.35);
-        }
-
-        .btn-confirm-proceed.deactivate {
-            background: hsl(0, 85%, 60%);
-            color: #fff;
-        }
-
-        .btn-confirm-proceed.deactivate:hover {
-            box-shadow: 0 4px 18px hsla(0, 85%, 60%, 0.35);
+        .btn-confirm-proceed.activate:hover, .btn-confirm-proceed.deactivate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px hsla(263, 85%, 65%, 0.35);
         }
     </style>
 </head>
@@ -313,8 +280,7 @@
                 <p class="content-desc">Review registered user applications and toggle their activation status.</p>
             </header>
 
-            <!-- Success/Error Alert Banners -->
-            <div id="ajax-alert" style="display: none;" class="alert-banner"></div>
+
 
             @if (session('success'))
                 <div class="alert-banner success">
@@ -612,7 +578,7 @@
                         }
 
                         // Show success banner
-                        alertDiv.className = 'alert-banner success';
+                        alertDiv.className = 'toast-alert success';
                         alertDiv.innerHTML = `
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
@@ -635,7 +601,7 @@
                     // Parse JSON error response
                     if (err.json) {
                         err.json().then(errorData => {
-                            alertDiv.className = 'alert-banner error';
+                            alertDiv.className = 'toast-alert error';
                             alertDiv.innerHTML = `
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <circle cx="12" cy="12" r="10"></circle>
@@ -647,7 +613,7 @@
                             alertDiv.style.display = 'flex';
                         });
                     } else {
-                        alertDiv.className = 'alert-banner error';
+                        alertDiv.className = 'toast-alert error';
                         alertDiv.innerHTML = `
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
@@ -662,5 +628,7 @@
             });
         });
     </script>
+    <!-- AJAX Success Alert -->
+    <div id="ajax-alert" class="toast-alert"></div>
 </body>
 </html>

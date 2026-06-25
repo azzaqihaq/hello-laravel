@@ -5,9 +5,16 @@
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
     
-    /* Dark Premium HSL Palette */
+    /* Dark Premium HSL Palette (Default Theme) */
     --bg-base: hsl(224, 25%, 4%);
     --bg-card: hsla(224, 25%, 8%, 0.65);
+    --bg-card-solid: hsl(224, 25%, 8%);
+    --sidebar-bg: hsla(224, 25%, 3%, 0.7);
+    --input-bg: hsla(224, 25%, 12%, 0.5);
+    --input-focus-bg: hsla(224, 25%, 15%, 0.7);
+    --metric-icon-bg: hsla(224, 25%, 15%, 0.5);
+    --tr-hover-bg: hsla(224, 25%, 10%, 0.4);
+    --tooltip-title-bg: hsla(224, 25%, 12%, 0.9);
     --border-color: hsla(224, 20%, 20%, 0.4);
     --border-hover: hsla(263, 80%, 60%, 0.5);
     
@@ -21,8 +28,58 @@
     --text-dark: hsl(220, 10%, 45%);
     --danger: hsl(0, 85%, 60%);
     
+    --glass-bg: hsla(224, 25%, 8%, 0.6);
     --sidebar-width: 280px;
     --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Popup, Alert & Backdrop styles (Dark mode defaults) */
+    --backdrop-bg: rgba(0, 0, 0, 0.6);
+    --success-bg: hsla(150, 85%, 10%, 0.85);
+    --success-border: hsla(150, 85%, 35%, 0.3);
+    --success-text: hsl(150, 85%, 55%);
+    --error-bg: hsla(0, 85%, 12%, 0.85);
+    --error-border: hsla(0, 85%, 45%, 0.3);
+    --error-text: hsl(0, 85%, 65%);
+}
+
+[data-theme="light"] {
+    /* Light Premium HSL Palette */
+    --bg-base: hsl(220, 30%, 93%);
+    --bg-card: hsla(0, 0%, 100%, 0.75);
+    --bg-card-solid: hsl(0, 0%, 100%);
+    --sidebar-bg: hsla(220, 30%, 96%, 0.85);
+    --input-bg: hsla(220, 20%, 88%, 0.6);
+    --input-focus-bg: hsla(0, 0%, 100%, 0.9);
+    --metric-icon-bg: hsla(220, 20%, 90%, 0.5);
+    --tr-hover-bg: hsla(220, 20%, 85%, 0.3);
+    --tooltip-title-bg: hsla(220, 20%, 92%, 0.9);
+    --border-color: hsla(220, 20%, 75%, 0.4);
+    --border-hover: hsla(263, 70%, 50%, 0.5);
+    
+    --primary: hsl(263, 75%, 55%);
+    --primary-glow: hsla(263, 75%, 55%, 0.15);
+    --accent: hsl(190, 85%, 40%);
+    --accent-glow: hsla(190, 85%, 40%, 0.15);
+    
+    --text-main: hsl(220, 30%, 15%);
+    --text-muted: hsl(220, 20%, 38%);
+    --text-dark: hsl(220, 15%, 50%);
+    
+    --glass-bg: hsla(0, 0%, 100%, 0.65);
+    
+    /* Popup, Alert & Backdrop styles (Light mode variants) */
+    --backdrop-bg: rgba(15, 23, 42, 0.15);
+    --success-bg: hsla(150, 70%, 95%, 0.9);
+    --success-border: hsla(150, 80%, 40%, 0.2);
+    --success-text: hsl(150, 80%, 25%);
+    --error-bg: hsla(0, 75%, 97%, 0.9);
+    --error-border: hsla(0, 80%, 50%, 0.2);
+    --error-text: hsl(0, 80%, 35%);
+}
+
+/* Enable smooth transitions for theme switches */
+body, .sidebar, .main-content, .workspace-card, .metric-card, .dashboard-card, .profile-card, .glass-dialog, .details-table tr, .form-input, .user-name, .user-role {
+    transition: background 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
 * {
@@ -162,10 +219,10 @@ html, body {
 .form-input {
     width: 100%;
     padding: 0.85rem 1rem 0.85rem 2.75rem;
-    background: hsla(224, 25%, 12%, 0.5);
+    background: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    color: #fff;
+    color: var(--text-main);
     font-family: var(--font-sans);
     font-size: 0.95rem;
     transition: var(--transition-smooth);
@@ -175,7 +232,7 @@ html, body {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 15px var(--primary-glow);
-    background: hsla(224, 25%, 15%, 0.7);
+    background: var(--input-focus-bg);
 }
 
 .form-input.is-invalid {
@@ -279,7 +336,7 @@ html, body {
 /* Sidebar Styling */
 .sidebar {
     width: var(--sidebar-width);
-    background: hsla(224, 25%, 3%, 0.7);
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -361,12 +418,12 @@ html, body {
 }
 
 .sidebar-link:hover {
-    color: #fff;
+    color: var(--text-main);
     background: hsla(224, 20%, 15%, 0.4);
 }
 
 .sidebar-item.active .sidebar-link {
-    color: #fff;
+    color: var(--text-main);
     background: hsla(263, 85%, 65%, 0.1);
     border: 1px solid hsla(263, 85%, 65%, 0.2);
 }
@@ -419,7 +476,7 @@ html, body {
 .user-name {
     font-weight: 600;
     font-size: 0.9rem;
-    color: #fff;
+    color: var(--text-main);
 }
 
 .user-role {
@@ -478,7 +535,7 @@ html, body {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 2.25rem;
-    color: #fff;
+    color: var(--text-main);
     margin-bottom: 0.5rem;
 }
 
@@ -529,7 +586,7 @@ html, body {
 .workspace-title {
     font-family: var(--font-display);
     font-size: 1.5rem;
-    color: #fff;
+    color: var(--text-main);
     margin-bottom: 0.75rem;
 }
 
@@ -601,7 +658,7 @@ html, body {
     font-size: 1.75rem;
     font-family: var(--font-display);
     font-weight: 700;
-    color: #fff;
+    color: var(--text-main);
 }
 
 .metric-trend {
@@ -628,7 +685,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: hsla(224, 25%, 15%, 0.5);
+    background: var(--metric-icon-bg);
     border: 1px solid var(--border-color);
     color: var(--text-muted);
     transition: var(--transition-smooth);
@@ -680,7 +737,7 @@ html, body {
     font-family: var(--font-display);
     font-size: 1.15rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-main);
 }
 
 .card-subtitle-main {
@@ -728,7 +785,7 @@ html, body {
 }
 
 .details-table tr:hover {
-    background: hsla(224, 25%, 10%, 0.4);
+    background: var(--tr-hover-bg);
 }
 
 .badge {
@@ -772,7 +829,7 @@ html, body {
 }
 
 .apexcharts-tooltip.apexcharts-theme-dark .apexcharts-tooltip-title {
-    background: hsla(224, 25%, 12%, 0.9) !important;
+    background: var(--tooltip-title-bg) !important;
     border-bottom: 1px solid var(--border-color) !important;
     font-family: var(--font-display) !important;
     font-weight: 600 !important;
@@ -835,7 +892,7 @@ html, body {
         flex-direction: row;
         border-right: none;
         border-top: 1px solid var(--border-color);
-        background: hsla(224, 25%, 3%, 0.85);
+        background: var(--sidebar-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         padding: 0;
@@ -985,12 +1042,12 @@ html, body {
     position: absolute;
     bottom: calc(100% + 12px);
     right: 0;
-    background: hsl(224, 25%, 6%); /* Solid background, no transparency */
+    background: var(--bg-card-solid);
     border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 0.75rem;
     min-width: 170px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     z-index: 1001;
     display: none;
     pointer-events: none;
@@ -1010,7 +1067,7 @@ html, body {
 .dropdown-user-name {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-main);
     font-family: var(--font-sans);
 }
 
@@ -1089,8 +1146,8 @@ html, body {
 }
 
 .dropdown-item-link:hover {
-    color: #fff;
-    background: hsla(224, 25%, 15%, 0.5);
+    color: var(--text-main);
+    background: var(--tr-hover-bg);
 }
 
 .dropdown-item-link svg {
@@ -1109,7 +1166,7 @@ html, body {
 
 /* Unified Glassmorphic Modal Dialogs */
 dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--backdrop-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 }
@@ -1117,7 +1174,7 @@ dialog::backdrop {
 .glass-dialog {
     border: 1px solid var(--border-color);
     border-radius: 20px;
-    background: hsla(224, 25%, 8%, 0.95);
+    background: var(--glass-bg);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     padding: 2.25rem 2.5rem;
@@ -1145,5 +1202,49 @@ dialog::backdrop {
     .glass-dialog[open] {
         opacity: 0;
         transform: translate(-50%, -50%) scale(0.9);
+    }
+}
+
+/* Premium Floating Toast Alerts */
+.toast-alert {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 99999;
+    max-width: 320px;
+    width: calc(100% - 4rem);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    animation: slide-in-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-alert.success {
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    color: var(--success-text);
+}
+
+.toast-alert.error {
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    color: var(--error-text);
+}
+
+@keyframes slide-in-toast {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }

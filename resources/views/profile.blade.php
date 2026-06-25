@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <title>Profile - Coleo.Inc</title>
 
     <!-- Stylesheet -->
@@ -175,7 +181,7 @@
         .profile-form-group input {
             width: 100%;
             padding: 0.75rem 1rem;
-            background: hsla(224, 25%, 10%, 0.5);
+            background: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 10px;
             color: var(--text-main);
@@ -189,6 +195,7 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px hsla(263, 85%, 55%, 0.15);
+            background: var(--input-focus-bg);
         }
 
         .profile-form-group input[readonly] {
@@ -218,7 +225,7 @@
             padding: 0.7rem 1.75rem;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background: linear-gradient(135deg, var(--primary) 0%, hsl(263, 85%, 55%) 100%);
             color: #fff;
             font-family: var(--font-sans);
             font-weight: 700;
@@ -229,11 +236,12 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 0.5rem;
+            box-shadow: 0 8px 25px var(--primary-glow);
         }
 
         .btn-save-profile:hover {
-            box-shadow: 0 6px 20px hsla(263, 85%, 55%, 0.35);
-            transform: translateY(-1px);
+            box-shadow: 0 12px 30px hsla(263, 85%, 65%, 0.35);
+            transform: translateY(-2px);
         }
 
         .btn-save-profile:disabled {
@@ -308,41 +316,7 @@
             border-color: var(--primary);
         }
 
-        /* Toast Alert */
-        .profile-alert {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 9999;
-            max-width: 320px;
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            font-size: 0.9rem;
-            display: none;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            animation: slide-in-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
 
-        .profile-alert.success {
-            background: hsla(150, 85%, 35%, 0.15);
-            border: 1px solid hsla(150, 85%, 35%, 0.3);
-            color: hsl(150, 85%, 55%);
-        }
-
-        .profile-alert.error {
-            background: hsla(0, 85%, 45%, 0.15);
-            border: 1px solid hsla(0, 85%, 45%, 0.3);
-            color: hsl(0, 85%, 65%);
-        }
-
-        @keyframes slide-in-toast {
-            from { transform: translateX(120%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
 
         /* Validation Errors */
         .field-error {
@@ -364,7 +338,7 @@
         .crop-modal-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #fff;
+            color: var(--text-main);
             margin: 0;
             font-family: var(--font-display);
         }
@@ -465,8 +439,7 @@
                 <p class="content-desc">Manage your personal information and account details.</p>
             </header>
 
-            <!-- Toast Alert -->
-            <div class="profile-alert" id="profile-alert"></div>
+
 
             <div class="profile-grid">
 
@@ -653,8 +626,8 @@
                 if (!this.files || !this.files[0]) return;
 
                 const file = this.files[0];
-                if (file.size > 2 * 1024 * 1024) {
-                    showToast('error', 'Photo must be under 2MB.');
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('error', 'Photo must be under 5MB.');
                     this.value = ''; // Reset input
                     return;
                 }
@@ -861,7 +834,7 @@
                     ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>'
                     : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>';
 
-                alertDiv.className = 'profile-alert ' + type;
+                alertDiv.className = 'toast-alert ' + type;
                 alertDiv.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + icon + '</svg><span>' + message + '</span>';
                 alertDiv.style.display = 'flex';
                 setTimeout(() => { alertDiv.style.display = 'none'; }, 4000);
@@ -869,5 +842,7 @@
 
         });
     </script>
+    <!-- AJAX Success Alert -->
+    <div id="profile-alert" class="toast-alert"></div>
 </body>
 </html>

@@ -3,6 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <title>Dashboard - Coleo.Inc</title>
 
     <!-- ApexCharts CDN -->
@@ -41,21 +47,6 @@
                             greeting = 'Good evening';
                         }
                         document.getElementById('client-greeting').textContent = greeting;
-
-                        // Mobile Profile Dropdown Toggle
-                        const profileTrigger = document.getElementById('user-profile-trigger');
-                        const dropdown = document.getElementById('profile-dropdown');
-                        
-                        if (profileTrigger && dropdown) {
-                            profileTrigger.addEventListener('click', function(e) {
-                                e.stopPropagation();
-                                dropdown.classList.toggle('show');
-                            });
-
-                            document.addEventListener('click', function() {
-                                dropdown.classList.remove('show');
-                            });
-                        }
                     });
                 </script>
             </header>
@@ -187,12 +178,13 @@
             <!-- ApexCharts Initialization Script -->
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
+                    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
                     const options = {
                         chart: {
                             type: 'area',
                             height: 350,
                             background: 'transparent',
-                            foreColor: 'hsl(220, 10%, 65%)',
+                            foreColor: isLight ? 'hsl(220, 20%, 38%)' : 'hsl(220, 10%, 65%)',
                             toolbar: {
                                 show: false
                             },
@@ -237,7 +229,7 @@
                             }
                         },
                         grid: {
-                            borderColor: 'hsla(224, 20%, 20%, 0.3)',
+                            borderColor: isLight ? 'hsla(220, 20%, 75%, 0.3)' : 'hsla(224, 20%, 20%, 0.3)',
                             strokeDashArray: 4,
                             xaxis: {
                                 lines: {
@@ -250,7 +242,7 @@
                             position: 'top',
                             horizontalAlign: 'right',
                             labels: {
-                                colors: 'hsl(220, 15%, 90%)'
+                                colors: isLight ? 'hsl(220, 30%, 15%)' : 'hsl(220, 15%, 90%)'
                             },
                             itemMargin: {
                                 horizontal: 10,
@@ -258,10 +250,10 @@
                             }
                         },
                         theme: {
-                            mode: 'dark'
+                            mode: isLight ? 'light' : 'dark'
                         },
                         tooltip: {
-                            theme: 'dark',
+                            theme: isLight ? 'light' : 'dark',
                             y: {
                                 formatter: function(val) {
                                     return val;

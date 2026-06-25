@@ -28,6 +28,10 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::put('/dashboard/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/dashboard/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo');
     
+    Route::get('/dashboard/settings', function () {
+        return view('settings');
+    })->name('settings');
+
     // Administrator-only routes
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard/accounts', [AccountManagementController::class, 'index'])->name('admin.accounts');
