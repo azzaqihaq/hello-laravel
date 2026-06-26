@@ -29,6 +29,7 @@ class User extends Authenticatable
         'user_role_id',
         'is_active',
         'member_id',
+        'password_changed_at',
     ];
 
     protected static function booted()
@@ -67,8 +68,9 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'email_verified_at'    => 'datetime',
+            'password'             => 'hashed',
+            'password_changed_at'  => 'datetime',
         ];
     }
 

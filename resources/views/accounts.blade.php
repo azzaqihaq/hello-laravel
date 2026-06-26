@@ -14,6 +14,7 @@
         .table-wrapper {
             width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             margin-top: 1.5rem;
         }
         
@@ -271,7 +272,7 @@
             justify-content: flex-start;
             min-height: unset;
             max-width: 100%;
-            overflow: hidden;
+            overflow: visible;
         }
 
         .accounts-content-header {
@@ -332,10 +333,24 @@
 
         /* Custom DataTables Styling overrides to match Wise theme */
         .dataTables_wrapper {
-            margin-top: 1.5rem;
             font-family: var(--font-sans);
-            display: flex;
-            flex-direction: column;
+            width: 100% !important;
+            overflow: visible;
+        }
+
+        .dataTables_scrollHead {
+            overflow: visible !important;
+        }
+
+        .dataTables_scrollBody {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .dataTables_wrapper .dataTables_info {
@@ -607,6 +622,8 @@
                 searching: true,
                 ordering: true,
                 info: true,
+                scrollX: true,
+                autoWidth: false,
                 dom: 'rtip', // Hide default search & length controls
                 language: {
                     paginate: {
