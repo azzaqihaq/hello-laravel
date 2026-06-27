@@ -359,7 +359,7 @@
         .btn-revoke-session {
             padding: 0.45rem 1rem;
             border: 1px solid hsl(0, 80%, 80%);
-            border-radius: 10px;
+            border-radius: 24px;
             background: hsl(0, 80%, 97%);
             color: hsl(0, 65%, 50%);
             font-family: var(--font-sans);
@@ -402,7 +402,7 @@
         .btn-revoke-all {
             padding: 0.6rem 1.25rem;
             border: 1px solid hsl(0, 80%, 80%);
-            border-radius: 12px;
+            border-radius: 24px;
             background: transparent;
             color: hsl(0, 65%, 50%);
             font-family: var(--font-sans);
@@ -596,7 +596,7 @@
         .btn-dialog-cancel {
             padding: 0.6rem 1.25rem;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 24px;
             background: transparent;
             color: var(--text-muted);
             font-family: var(--font-sans);
@@ -614,7 +614,7 @@
         .btn-dialog-confirm-revoke {
             padding: 0.6rem 1.25rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 24px;
             background: hsl(0, 70%, 55%);
             color: #fff;
             font-family: var(--font-sans);
@@ -1022,6 +1022,22 @@
             btnRevokeCancel?.addEventListener('click', () => {
                 revokeDialog.close();
                 pendingRevokeAction = null;
+            });
+
+            // Dismiss when clicking outside modal
+            revokeDialog?.addEventListener('click', function(event) {
+                if (event.target !== revokeDialog) return;
+                const rect = revokeDialog.getBoundingClientRect();
+                const isDialogContent = (
+                    rect.top <= event.clientY &&
+                    event.clientY <= rect.top + rect.height &&
+                    rect.left <= event.clientX &&
+                    event.clientX <= rect.left + rect.width
+                );
+                if (!isDialogContent) {
+                    revokeDialog.close();
+                    pendingRevokeAction = null;
+                }
             });
 
             // Helper: animate and remove a session row

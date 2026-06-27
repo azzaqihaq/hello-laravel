@@ -292,7 +292,7 @@
             margin-top: 1.25rem;
             padding: 0.6rem 1.25rem;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 24px;
             background: transparent;
             color: var(--text-muted);
             font-family: var(--font-sans);
@@ -306,9 +306,9 @@
         }
 
         .btn-download-qrcode:hover {
-            background: hsla(224, 20%, 20%, 0.5);
+            background: var(--bg-base);
             color: var(--text-main);
-            border-color: var(--primary);
+            border-color: var(--border-hover);
         }
 
 
@@ -374,7 +374,7 @@
         .btn-crop-cancel {
             padding: 0.6rem 1.25rem;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 24px;
             background: transparent;
             color: var(--text-muted);
             font-family: var(--font-sans);
@@ -385,9 +385,9 @@
         }
 
         .btn-crop-cancel:hover {
-            background: hsla(224, 20%, 20%, 0.5);
+            background: var(--bg-base);
             color: var(--text-main);
-            border-color: var(--primary);
+            border-color: var(--border-hover);
         }
 
         .btn-crop-confirm {
@@ -688,21 +688,19 @@
             });
 
             // Fallback for click outside modal (backdrop click dismiss)
-            if (!('closedBy' in HTMLDialogElement.prototype)) {
-                cropDialog.addEventListener('click', function(event) {
-                    if (event.target !== cropDialog) return;
-                    const rect = cropDialog.getBoundingClientRect();
-                    const isDialogContent = (
-                        rect.top <= event.clientY &&
-                        event.clientY <= rect.top + rect.height &&
-                        rect.left <= event.clientX &&
-                        event.clientX <= rect.left + rect.width
-                    );
-                    if (!isDialogContent) {
-                        closeCropDialog();
-                    }
-                });
-            }
+            cropDialog.addEventListener('click', function(event) {
+                if (event.target !== cropDialog) return;
+                const rect = cropDialog.getBoundingClientRect();
+                const isDialogContent = (
+                    rect.top <= event.clientY &&
+                    event.clientY <= rect.top + rect.height &&
+                    rect.left <= event.clientX &&
+                    event.clientX <= rect.left + rect.width
+                );
+                if (!isDialogContent) {
+                    closeCropDialog();
+                }
+            });
 
             // Confirm crop and upload via AJAX
             btnCropConfirm.addEventListener('click', function() {

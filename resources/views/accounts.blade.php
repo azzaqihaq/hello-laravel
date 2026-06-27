@@ -111,7 +111,7 @@
         .btn-status-toggle {
             padding: 0.5rem 1rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 24px;
             font-family: var(--font-sans);
             font-weight: 600;
             font-size: 0.85rem;
@@ -219,7 +219,7 @@
 
         .btn-confirm-cancel {
             padding: 0.6rem 1.25rem;
-            border-radius: 10px;
+            border-radius: 24px;
             border: 1px solid var(--border-color);
             background: transparent;
             color: var(--text-muted);
@@ -231,13 +231,14 @@
         }
 
         .btn-confirm-cancel:hover {
-            background: hsla(224, 20%, 20%, 0.5);
+            background: var(--bg-base);
             color: var(--text-main);
+            border-color: var(--border-hover);
         }
 
         .btn-confirm-proceed {
             padding: 0.6rem 1.25rem;
-            border-radius: 10px;
+            border-radius: 24px;
             border: none;
             font-family: var(--font-sans);
             font-weight: 600;
@@ -506,7 +507,7 @@
                         </div>
 
                         <!-- Reset Filters -->
-                        <button type="button" id="btn-reset-filters" class="btn-confirm-cancel" style="padding: 0.8rem 1.25rem; font-size: 0.9rem; border-radius: 12px; margin: 0; display: none;">
+                        <button type="button" id="btn-reset-filters" class="btn-confirm-cancel" style="padding: 0.8rem 1.25rem; font-size: 0.9rem; border-radius: 24px; margin: 0; display: none;">
                             Reset
                         </button>
                     </div>
@@ -696,21 +697,19 @@
             });
 
             // Fallback for click outside modal (backdrop click dismiss)
-            if (!('closedBy' in HTMLDialogElement.prototype)) {
-                confirmDialog.addEventListener('click', function(event) {
-                    if (event.target !== confirmDialog) return;
-                    const rect = confirmDialog.getBoundingClientRect();
-                    const isDialogContent = (
-                        rect.top <= event.clientY &&
-                        event.clientY <= rect.top + rect.height &&
-                        rect.left <= event.clientX &&
-                        event.clientX <= rect.left + rect.width
-                    );
-                    if (!isDialogContent) {
-                        hideConfirmModal();
-                    }
-                });
-            }
+            confirmDialog.addEventListener('click', function(event) {
+                if (event.target !== confirmDialog) return;
+                const rect = confirmDialog.getBoundingClientRect();
+                const isDialogContent = (
+                    rect.top <= event.clientY &&
+                    event.clientY <= rect.top + rect.height &&
+                    rect.left <= event.clientX &&
+                    event.clientX <= rect.left + rect.width
+                );
+                if (!isDialogContent) {
+                    hideConfirmModal();
+                }
+            });
 
             // Intercept form submissions via event delegation to show modal first
             document.addEventListener('submit', function(e) {

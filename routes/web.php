@@ -136,7 +136,7 @@ Route::middleware(['auth', 'active'])->group(function () {
                 'last_activity'=> $session->last_activity,
                 'is_current'   => $session->id === $currentSessionId,
             ];
-        });
+        })->sortByDesc('is_current');
 
         $passwordChangedAt = $user->password_changed_at
             ? $user->password_changed_at->diffForHumans()

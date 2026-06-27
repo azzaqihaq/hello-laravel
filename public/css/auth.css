@@ -1139,14 +1139,14 @@ dialog::backdrop {
 .glass-dialog {
     border: 1px solid var(--border-color);
     border-radius: 24px;
-    background: var(--glass-bg);
+    background: var(--bg-card);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     padding: 2.25rem 2.5rem;
     color: var(--text-main);
     max-width: 480px;
     width: calc(100% - 2.5rem);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 16px 48px rgba(14, 15, 12, 0.15);
     overflow: hidden;
     position: fixed;
     top: 50%;
