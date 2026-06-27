@@ -17,6 +17,54 @@ Route::middleware('guest')->group(function () {
     
     Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [LoginController::class, 'register']);
+
+    // Forgot Password
+    Route::get('/forgot-password', function () {
+        return view('forgot-password');
+    })->name('password.request');
+
+    Route::post('/forgot-password', function (\Illuminate\Http\Request $request) {
+        $request->validate(['email' => ['required', 'email']]);
+
+        $status = \Illuminate\Support\Facades\Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === \Illuminate\Support\Facades\Password::RESET_LINK_SENT
+            ? back()->with('status', __($status))
+            : back()->withErrors(['email' => __($status)])->onlyInput('email');
+    })->name('password.email');
+
+    // Reset Password
+    Route::get('/reset-password/{token}', function (string $token, \Illuminate\Http\Request $request) {
+        return view('reset-password', [
+            'token' => $token,
+            'email' => $request->query('email', ''),
+        ]);
+    })->name('password.reset');
+
+    Route::post('/reset-password', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'token'    => ['required'],
+            'email'    => ['required', 'email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $status = \Illuminate\Support\Facades\Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, string $password) {
+                $user->forceFill([
+                    'password'            => \Illuminate\Support\Facades\Hash::make($password),
+                    'password_changed_at' => now(),
+                ])->setRememberToken(\Illuminate\Support\Str::random(60));
+                $user->save();
+            }
+        );
+
+        return $status === \Illuminate\Support\Facades\Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('success', 'Your password has been reset! You can now sign in.')
+            : back()->withErrors(['email' => [__($status)]]);
+    })->name('password.update');
 });
 
 Route::middleware(['auth', 'active'])->group(function () {

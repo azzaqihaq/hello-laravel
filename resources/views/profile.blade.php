@@ -78,7 +78,6 @@
             font-weight: 800;
             color: var(--on-primary);
             letter-spacing: 0.02em;
-            box-shadow: 0 8px 24px var(--primary-glow);
             overflow: hidden;
         }
 

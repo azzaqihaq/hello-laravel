@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Sign in to your account.">
-    <title>Sign In - Coleo.Inc</title>
+    <meta name="description" content="Reset your account password.">
+    <title>Forgot Password - Coleo.Inc</title>
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
@@ -17,29 +17,29 @@
         <div class="ambient-glow-2"></div>
     </div>
 
-    <!-- Login Wrapper -->
+    <!-- Forgot Password Wrapper -->
     <div class="auth-wrapper">
         <div class="auth-card">
             
             <div class="auth-header">
                 <div class="auth-logo">
-                    <!-- Geometric logo -->
+                    <!-- Key icon -->
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     </svg>
                 </div>
-                <h1 class="auth-title">Welcome Back</h1>
-                <p class="auth-subtitle">Sign in to your dashboard</p>
+                <h1 class="auth-title">Forgot Password?</h1>
+                <p class="auth-subtitle">Enter your email address and we'll send you a link to reset your password.</p>
             </div>
 
-            @if (session('success'))
+            @if (session('status'))
                 <div style="background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success-text); padding: 0.85rem 1rem; border-radius: 12px; font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center; line-height: 1.4;">
-                    {{ session('success') }}
+                    {{ session('status') }}
                 </div>
             @endif
 
-            <!-- Login Form -->
-            <form action="{{ url('/login') }}" method="POST">
+            <!-- Forgot Password Form -->
+            <form action="{{ route('password.email') }}" method="POST">
                 @csrf
 
                 <!-- Email Input -->
@@ -69,48 +69,14 @@
                     @enderror
                 </div>
 
-                <!-- Password Input -->
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-wrapper">
-                        <input 
-                            type="password" 
-                            name="password" 
-                            id="password" 
-                            class="form-input @error('password') is-invalid @enderror" 
-                            placeholder="••••••••" 
-                            required
-                        >
-                        <span class="input-icon">
-                            <!-- Lock Icon -->
-                            <svg viewBox="0 0 24 24">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
-                        </span>
-                    </div>
-                    @error('password')
-                        <span class="error-message">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <!-- Form Options -->
-                <div class="form-actions">
-                    <label class="remember-me">
-                        <input type="checkbox" name="remember" class="remember-checkbox">
-                        Remember me
-                    </label>
-                    <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
-                </div>
-
                 <!-- Submit Button -->
-                <button type="submit" class="btn-auth" style="margin-bottom: 1.5rem;">Sign In</button>
+                <button type="submit" class="btn-auth" style="margin-bottom: 1.5rem;">Send Reset Link</button>
 
-                <!-- Redirect to Register Link -->
+                <!-- Back to Login Link -->
                 <div style="text-align: center;">
                     <span style="font-size: 0.85rem; color: var(--text-muted);">
-                        Don't have an account? 
-                        <a href="{{ route('register') }}" class="forgot-password" style="font-weight: 600;">Create Account</a>
+                        Remember your password? 
+                        <a href="{{ route('login') }}" class="forgot-password" style="font-weight: 600;">Back to Sign In</a>
                     </span>
                 </div>
 

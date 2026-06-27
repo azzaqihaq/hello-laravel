@@ -424,7 +424,6 @@ html, body {
     font-weight: 700;
     color: var(--on-primary);
     font-size: 1rem;
-    box-shadow: 0 4px 10px var(--primary-glow);
     overflow: hidden;
 }
 

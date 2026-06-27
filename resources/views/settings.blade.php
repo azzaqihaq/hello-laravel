@@ -290,6 +290,11 @@
             padding-bottom: 0;
         }
 
+        .session-item-badge {
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
         .session-icon {
             width: 44px;
             height: 44px;
@@ -434,6 +439,10 @@
             margin-bottom: 1.1rem;
         }
 
+        .pw-form-group:first-of-type {
+            margin-top: 1.25rem;
+        }
+
         .pw-form-group label {
             display: block;
             font-size: 0.83rem;
@@ -493,17 +502,24 @@
         }
 
         .pw-last-changed {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 1.25rem;
+            font-size: 0.78rem;
+            color: var(--text-dark);
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
         }
 
         .pw-last-changed svg {
             flex-shrink: 0;
             opacity: 0.6;
+        }
+
+        .pw-action-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .btn-change-password {
@@ -758,9 +774,6 @@
                                 <div class="session-info">
                                     <div class="session-device">
                                         <span>{{ $session->browser }} on {{ $session->os }}</span>
-                                        @if ($session->is_current)
-                                            <span class="session-current-badge">Current session</span>
-                                        @endif
                                     </div>
                                     <div class="session-meta">
                                         <span>{{ $session->ip_address }}</span>
@@ -771,8 +784,10 @@
                                     </div>
                                 </div>
 
-                                {{-- Revoke button --}}
-                                @if (!$session->is_current)
+                                {{-- Current badge or Revoke button (right side) --}}
+                                @if ($session->is_current)
+                                    <span class="session-current-badge session-item-badge">Current session</span>
+                                @else
                                     <button
                                         type="button"
                                         class="btn-revoke-session"
@@ -808,73 +823,59 @@
                     @endif
                 </div>
 
-                <!-- Card: Change Password -->
-                <div class="settings-card">
-                    <h2 class="settings-section-title">Change Password</h2>
-                    <p class="option-desc">Update your account password. You'll remain logged in on this device.</p>
+                </div>
+            </form>
 
-                    @if ($passwordChangedAt)
-                        <div class="pw-last-changed" id="pw-last-changed-wrap">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Last changed <span id="pw-last-changed-text">{{ $passwordChangedAt }}</span>
-                        </div>
-                    @else
-                        <div class="pw-last-changed" id="pw-last-changed-wrap" style="display:none;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            Last changed <span id="pw-last-changed-text"></span>
-                        </div>
-                    @endif
+            <!-- Card: Change Password (outside settings-form to avoid nested forms) -->
+            <div class="settings-card" style="margin-top: 1.5rem;">
+                <h2 class="settings-section-title">Change Password</h2>
+                <p class="option-desc">Update your account password. You'll remain logged in on this device.</p>
 
-                    <form id="password-form" action="{{ route('settings.password.change') }}" method="POST" novalidate>
-                        @csrf
-                        <div class="pw-form-group">
-                            <label for="current_password">Current Password</label>
-                            <div class="pw-input-wrap">
-                                <input type="password" id="current_password" name="current_password" autocomplete="current-password" placeholder="Enter your current password">
-                                <button type="button" class="pw-toggle-btn" data-target="current_password" aria-label="Toggle visibility">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="pw-error" id="error-current_password"></div>
+                <form id="password-form" action="{{ route('settings.password.change') }}" method="POST" novalidate>
+                    @csrf
+                    <div class="pw-form-group">
+                        <label for="current_password">Current Password</label>
+                        <div class="pw-input-wrap">
+                            <input type="password" id="current_password" name="current_password" autocomplete="current-password" placeholder="Enter your current password">
+                            <button type="button" class="pw-toggle-btn" data-target="current_password" aria-label="Toggle visibility">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
                         </div>
+                        <div class="pw-error" id="error-current_password"></div>
+                    </div>
 
-                        <div class="pw-form-group">
-                            <label for="new_password">New Password</label>
-                            <div class="pw-input-wrap">
-                                <input type="password" id="new_password" name="new_password" autocomplete="new-password" placeholder="At least 8 characters">
-                                <button type="button" class="pw-toggle-btn" data-target="new_password" aria-label="Toggle visibility">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="pw-error" id="error-new_password"></div>
+                    <div class="pw-form-group">
+                        <label for="new_password">New Password</label>
+                        <div class="pw-input-wrap">
+                            <input type="password" id="new_password" name="new_password" autocomplete="new-password" placeholder="At least 8 characters">
+                            <button type="button" class="pw-toggle-btn" data-target="new_password" aria-label="Toggle visibility">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
                         </div>
+                        <div class="pw-error" id="error-new_password"></div>
+                    </div>
 
-                        <div class="pw-form-group">
-                            <label for="new_password_confirmation">Confirm New Password</label>
-                            <div class="pw-input-wrap">
-                                <input type="password" id="new_password_confirmation" name="new_password_confirmation" autocomplete="new-password" placeholder="Repeat your new password">
-                                <button type="button" class="pw-toggle-btn" data-target="new_password_confirmation" aria-label="Toggle visibility">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="pw-error" id="error-new_password_confirmation"></div>
+                    <div class="pw-form-group">
+                        <label for="new_password_confirmation">Confirm New Password</label>
+                        <div class="pw-input-wrap">
+                            <input type="password" id="new_password_confirmation" name="new_password_confirmation" autocomplete="new-password" placeholder="Repeat your new password">
+                            <button type="button" class="pw-toggle-btn" data-target="new_password_confirmation" aria-label="Toggle visibility">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
                         </div>
+                        <div class="pw-error" id="error-new_password_confirmation"></div>
+                    </div>
 
+                    <div class="pw-action-row">
                         <button type="submit" class="btn-change-password" id="btn-change-password">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -882,11 +883,27 @@
                             </svg>
                             <span>Update Password</span>
                         </button>
-                    </form>
-                </div>
 
-                </div>
-            </form>
+                        @if ($passwordChangedAt)
+                            <div class="pw-last-changed" id="pw-last-changed-wrap">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                Last updated <span id="pw-last-changed-text">{{ $passwordChangedAt }}</span>
+                            </div>
+                        @else
+                            <div class="pw-last-changed" id="pw-last-changed-wrap" style="display:none;">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                Last updated <span id="pw-last-changed-text"></span>
+                            </div>
+                        @endif
+                    </div>
+                </form>
+            </div>
 
         </main>
     </div>
