@@ -147,13 +147,21 @@ Route::middleware(['auth', 'active'])->group(function () {
 
     Route::post('/dashboard/settings', function (\Illuminate\Http\Request $request) {
         $request->validate([
-            'notifications' => ['required', 'string', 'in:all,mentions,none'],
+            'notifications'   => ['required', 'string', 'in:all,mentions,none'],
+            'public_profile'  => ['nullable', 'boolean'],
+            'show_active'     => ['nullable', 'boolean'],
+            'crash_telemetry' => ['nullable', 'boolean'],
         ]);
 
         $user = Auth::user();
         $user->settings()->updateOrCreate(
             ['user_id' => $user->id],
-            ['notifications' => $request->notifications]
+            [
+                'notifications'   => $request->notifications,
+                'public_profile'  => $request->boolean('public_profile'),
+                'show_active'     => $request->boolean('show_active'),
+                'crash_telemetry' => $request->boolean('crash_telemetry'),
+            ]
         );
 
         if ($request->expectsJson()) {

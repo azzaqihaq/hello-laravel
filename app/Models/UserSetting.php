@@ -9,6 +9,9 @@ class UserSetting extends Model
     protected $fillable = [
         'user_id',
         'notifications',
+        'public_profile',
+        'show_active',
+        'crash_telemetry',
     ];
 
     public function user()

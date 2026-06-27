@@ -687,7 +687,7 @@
                             <span class="option-desc">Allow search engines and non-members to find your profile details.</span>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" name="public_profile" value="1" {{ ($user->settings->public_profile ?? true) ? 'checked' : '' }}>
                             <span class="slider-round"></span>
                         </label>
                     </div>
@@ -698,7 +698,7 @@
                             <span class="option-desc">Show other members when you are active on the dashboard.</span>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" name="show_active" value="1" {{ ($user->settings->show_active ?? true) ? 'checked' : '' }}>
                             <span class="slider-round"></span>
                         </label>
                     </div>
@@ -709,7 +709,7 @@
                             <span class="option-desc">Share crash and analytics data anonymously to help diagnostic metrics.</span>
                         </div>
                         <label class="toggle-switch">
-                            <input type="checkbox">
+                            <input type="checkbox" name="crash_telemetry" value="1" {{ ($user->settings->crash_telemetry ?? false) ? 'checked' : '' }}>
                             <span class="slider-round"></span>
                         </label>
                     </div>
@@ -964,6 +964,11 @@
                 radio.addEventListener('change', autoSaveSettings);
             });
 
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', autoSaveSettings);
+            });
+
             // ── Toast Helper ──
             function showToast(type, message) {
                 const existing = document.querySelectorAll('.toast-alert');
@@ -1162,12 +1167,32 @@
             });
 
             // ── Show / Hide Password Toggles ──
+            const eyeOpenSvg = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            `;
+            const eyeClosedSvg = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+            `;
+
             document.querySelectorAll('.pw-toggle-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
                     const targetId = this.dataset.target;
                     const input = document.getElementById(targetId);
                     if (!input) return;
-                    input.type = input.type === 'password' ? 'text' : 'password';
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.innerHTML = eyeClosedSvg;
+                    } else {
+                        input.type = 'password';
+                        this.innerHTML = eyeOpenSvg;
+                    }
                 });
             });
 

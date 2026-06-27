@@ -88,7 +88,10 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->hasOne(UserSetting::class)->withDefault([
-            'notifications' => 'all'
+            'notifications' => 'all',
+            'public_profile' => true,
+            'show_active' => true,
+            'crash_telemetry' => false,
         ]);
     }
 
