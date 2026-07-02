@@ -23,7 +23,14 @@
             min-width: 800px;
             border-collapse: collapse;
             text-align: left;
+            table-layout: fixed;
         }
+
+        .accounts-table th:nth-child(1) { width: 28%; }
+        .accounts-table th:nth-child(2) { width: 32%; }
+        .accounts-table th:nth-child(3) { width: 18%; }
+        .accounts-table th:nth-child(4) { width: 12%; }
+        .accounts-table th:nth-child(5) { width: 10%; }
         
         .accounts-table th {
             padding: 1.15rem 1.5rem;
@@ -864,14 +871,14 @@
                 if (selectedRole === 'all') {
                     table.column(2).search('');
                 } else {
-                    table.column(2).search('^' + selectedRole + '$', true, false, true);
+                    table.column(2).search(selectedRole);
                 }
 
                 // Status Filter (Column 3)
                 if (selectedStatus === 'all') {
                     table.column(3).search('');
                 } else {
-                    table.column(3).search('^' + selectedStatus + '$', true, false, true);
+                    table.column(3).search(selectedStatus);
                 }
 
                 table.draw();
