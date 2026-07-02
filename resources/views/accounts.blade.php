@@ -273,20 +273,12 @@
             justify-content: flex-start;
             min-height: unset;
             max-width: 100%;
-            overflow: visible;
+            overflow: hidden;
         }
 
-        .accounts-content-header {
-            margin-bottom: 1.5rem;
-        }
-        
         @media (max-width: 768px) {
             .accounts-workspace-card {
-                padding: 1.25rem 1rem;
-            }
-
-            .accounts-content-header {
-                margin-bottom: 1rem;
+                padding: 1rem 0.75rem !important;
             }
 
             .accounts-content-header .content-title {
@@ -300,6 +292,7 @@
             .table-actions-bar {
                 flex-direction: column !important;
                 align-items: stretch !important;
+                gap: 0.75rem !important;
             }
 
             .table-actions-bar > div:first-child {
@@ -318,11 +311,13 @@
             .dataTables_wrapper .dataTables_info {
                 text-align: center;
                 font-size: 0.8rem;
+                padding-top: 1rem;
             }
 
             .dataTables_wrapper .dataTables_paginate {
                 justify-content: center;
                 flex-wrap: wrap;
+                padding-top: 0.75rem;
             }
 
             .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -527,7 +522,7 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>
+                                    <td data-label="User">
                                         <div style="display: flex; align-items: center; gap: 0.75rem;">
                                             <div class="user-avatar" style="width: 2.25rem; height: 2.25rem; font-size: 0.85rem; flex-shrink: 0; margin-bottom: 0;">
                                                 @if($user->profile_photo)
@@ -542,19 +537,19 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td style="color: var(--text-muted);">{{ $user->email }}</td>
-                                    <td>
+                                    <td data-label="Email Address" style="color: var(--text-muted);">{{ $user->email }}</td>
+                                    <td data-label="Selected Role">
                                         <span class="badge-role {{ strtolower($user->role?->slug ?? 'user') }}">
                                             {{ $user->role?->name ?? 'None' }}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td data-label="Status">
                                         <div id="status-container-{{ $user->id }}" class="badge-status {{ $user->is_active ? 'active' : 'inactive' }}">
                                             <div class="badge-status-dot"></div>
                                             <span id="status-label-{{ $user->id }}">{{ $user->is_active ? 'Active' : 'Inactive' }}</span>
                                         </div>
                                     </td>
-                                    <td style="text-align: right;">
+                                    <td data-label="Action" style="text-align: right;">
                                         @if (Auth::id() !== $user->id)
                                             <form action="{{ route('admin.accounts.toggle', $user) }}" method="POST" class="ajax-toggle-form" style="margin: 0; display: inline-block;">
                                                 @csrf
@@ -623,7 +618,7 @@
                 searching: true,
                 ordering: true,
                 info: true,
-                scrollX: true,
+                scrollX: false,
                 autoWidth: false,
                 dom: 'rtip', // Hide default search & length controls
                 language: {
