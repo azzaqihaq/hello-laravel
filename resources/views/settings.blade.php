@@ -628,6 +628,21 @@
             background: hsl(0, 70%, 47%);
             box-shadow: 0 6px 18px hsla(0, 70%, 55%, 0.35);
         }
+
+        @media (max-width: 768px) {
+            .switch-option {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            .slider-control-wrapper {
+                width: 100%;
+                min-width: 0;
+            }
+            .toggle-switch {
+                align-self: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
