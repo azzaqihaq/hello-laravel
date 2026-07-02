@@ -276,7 +276,7 @@
         .accounts-workspace-card {
             display: block;
             text-align: left;
-            padding: 2.25rem 2.5rem;
+            padding: 2rem;
             align-items: stretch;
             justify-content: flex-start;
             min-height: unset;
@@ -286,7 +286,7 @@
 
         @media (max-width: 768px) {
             .accounts-workspace-card {
-                padding: 1rem 0.75rem !important;
+                padding: 2rem !important;
             }
 
             .accounts-content-header .content-title {
