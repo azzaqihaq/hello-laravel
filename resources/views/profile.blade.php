@@ -205,6 +205,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .profile-form-row .profile-form-group {
+            margin-bottom: 0;
         }
 
         @media (max-width: 600px) {
