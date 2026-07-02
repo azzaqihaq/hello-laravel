@@ -937,6 +937,8 @@ html, body {
         margin-left: 0 !important;
         padding: 1.5rem !important;
         margin-bottom: 80px !important;
+        min-width: 0;
+        width: 100%;
     }
     .content-header {
         margin-bottom: 1.75rem;

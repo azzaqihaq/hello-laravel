@@ -13,6 +13,7 @@
     <style>
         .table-wrapper {
             width: 100%;
+            max-width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             margin-top: 1.5rem;
