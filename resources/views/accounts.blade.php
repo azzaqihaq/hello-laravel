@@ -485,7 +485,7 @@
                     <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
                         <!-- Role Filter -->
                         <div style="position: relative; min-width: 140px;">
-                            <select id="role-filter" class="form-input" style="margin-bottom: 0; padding-right: 2rem; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%226 9 12 15 18 9%22></polyline></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;">
+                            <select id="role-filter" class="form-input" style="margin-bottom: 0; padding-left: 1rem; padding-right: 2rem; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%226 9 12 15 18 9%22></polyline></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;">
                                 <option value="all">All Roles</option>
                                 <option value="editor">Editor</option>
                                 <option value="user">User</option>
@@ -494,7 +494,7 @@
 
                         <!-- Status Filter -->
                         <div style="position: relative; min-width: 140px;">
-                            <select id="status-filter" class="form-input" style="margin-bottom: 0; padding-right: 2rem; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%226 9 12 15 18 9%22></polyline></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;">
+                            <select id="status-filter" class="form-input" style="margin-bottom: 0; padding-left: 1rem; padding-right: 2rem; appearance: none; -webkit-appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><polyline points=%226 9 12 15 18 9%22></polyline></svg>'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 16px;">
                                 <option value="all">All Statuses</option>
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
